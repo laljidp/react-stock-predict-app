@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,17 +9,36 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { signInWithFirebase } from '../../services/firebase/auth.firebase';
+import { AuthContext, IS_AUTHENTICATED, USER_STORAGE_KEY } from '../../Context/userAuth.context';
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const [setSubmitting, setIsSubmitting] = useState(false);
+  const { setIsAuthenticated, setUserData } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email');
+    const password = data.get('password');
+    setIsSubmitting(true);
+    const { success, message, user } = await signInWithFirebase(email, password);
+    if (success) {
+      // Manage user data in context
+      setUserData(user);
+      setIsAuthenticated(true);
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+      localStorage.setItem(IS_AUTHENTICATED, true);
+      navigate('/home');
+    } else {
+      // show error toast message
+      console.log('message', message);
+    }
+    setIsSubmitting(false);
   };
 
   return (
@@ -60,8 +80,14 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign In
+            <Button
+              disabled={setSubmitting}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              {setSubmitting ? 'Logging...' : 'Sign In'}
             </Button>
           </Box>
         </Box>
