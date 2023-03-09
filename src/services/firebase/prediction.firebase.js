@@ -1,5 +1,5 @@
 import { getDocs, collection, where, query } from 'firebase/firestore';
-import predictionConverter from '../firebaseConverters/prediction.converter';
+import predictionConverter from '../firebaseConverters/predictionConverter';
 import { db } from '.';
 
 export const PREDICTION_COLLECTION = 'public_predictions';

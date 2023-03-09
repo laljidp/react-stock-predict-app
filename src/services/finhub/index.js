@@ -1,0 +1,22 @@
+const apiKey = process.env.REACT_APP_FINHUB_APIKEY;
+
+const baseURL = 'https://finnhub.io/api/v1';
+
+export const searchStockBySymbol = async (searchString) => {
+  console.log('calling this', searchString);
+  if (!searchString.trim()) return [];
+  const searchUrl = `${baseURL}/search?q=${searchString}&token=${apiKey}`;
+  const response = await fetch(searchUrl);
+  const data = await response.json();
+  return data;
+};
+
+export const fetchStockPrice = async (stockInfo) => {
+  if (!stockInfo) {
+    return {};
+  }
+  const searchUrl = `${baseURL}/quote?symbol=${stockInfo.symbol}&token=${apiKey}`;
+  const response = await fetch(searchUrl);
+  const data = await response.json();
+  return data;
+};

@@ -1,49 +1,22 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
 import Container from '@mui/system/Container';
+import styled from '@emotion/styled';
+import { Button } from '@mui/material';
 import { AuthContext } from '../../Context/userAuth.context';
 import { fetchUsersFromStore } from '../../services/firebase/users.firebase';
 import UsersList from '../UI/UsersList';
 import PredictionLists from '../UI/PredictionList';
 import { fetchUserPredictions } from '../../services/firebase/prediction.firebase';
+import PredictButton from '../UI/PredictButton';
+import CreatePredictionModal from '../UI/CreatePredictionModal';
 
 function Home() {
   const {
-    userData: { uid: currentUserID },
+    userData: { uid: currentUserID, name },
   } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
-  const [predictions, setPredictions] = useState([
-    {
-      percentage: 10,
-      selectedDurationType: 'week',
-      target: 120,
-      userId: 'VaI72dkHQ2SKuLPBYU81OHZDSGJ2',
-      id: 'mUoLqqHtSEyvBrPeWBQ9',
-      challanges: [],
-      stock: {
-        type: 'Common Stock',
-        price: {
-          o: 96.55,
-          l: 98.095,
-          t: 1678117708,
-          pc: 98.33,
-          c: 99.04,
-          h: 99.2,
-          dp: 0.7221,
-          d: 0.71,
-        },
-        displaySymbol: 'MS',
-        symbol: 'MS',
-        description: 'MORGAN STANLEY',
-      },
-      predictionDateTime: {
-        seconds: 1678645800,
-        nanoseconds: 0,
-      },
-      afterPercentageTarget: 89.163,
-      isSharePublicaly: true,
-    },
-  ]);
+  const [predictions, setPredictions] = useState([]);
 
   const fetchUsers = async () => {
     console.log('calling APIs');
@@ -67,12 +40,31 @@ function Home() {
 
   return (
     <Container>
-      <h4>Other users</h4>
+      <HeadSection>
+        <div className="heading-text">YOUR ACCOUNT</div>
+        <div>
+          <PredictButton>Predict Now</PredictButton>
+        </div>
+      </HeadSection>
+      <h3>Other users</h3>
       <UsersList users={users} onSelectUser={handleSelectUser} />
-      <h5>Your ongoing prediction</h5>
+      <h3>Your ongoing prediction</h3>
       <PredictionLists predictions={predictions} />
+      <CreatePredictionModal open onClose={() => {}} />
     </Container>
   );
 }
+
+const HeadSection = styled('div')({
+  display: 'flex',
+  alignItems: 'flex-end',
+  justifyContent: 'space-between',
+  width: '100%',
+  margin: '20px 0',
+  '.heading-text': {
+    fontWeight: 'bold',
+    fontSize: '28px',
+  },
+});
 
 export default Home;

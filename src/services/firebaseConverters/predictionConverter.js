@@ -15,14 +15,13 @@ class Prediction {
   }
 
   getFormattedData() {
-    console.log('this.predictionDateTime', this.predictionDateTime);
     return {
       id: this.id,
       isSharePublicaly: this.isSharePublicaly,
       percentage: this.percentage,
       challenges: this.challenges,
       predictionDateTime: moment(this.predictionDateTime.toDate()).format('L'),
-      afterPercentageTarget: this.afterPercentageTarget,
+      afterPercentageTarget: parseFloat(this.afterPercentageTarget).toFixed(2),
       selectedDurationType: this.selectedDurationType,
       stock: this.stock,
       target: this.target,

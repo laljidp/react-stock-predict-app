@@ -8,7 +8,6 @@ import PredictionLiveWidget from './PredictionLiveWidget';
 
 export default function PredictionCard({ prediction }) {
   const { target, stock, predictionDateTime, afterPercentageTarget } = prediction;
-  console.log('target', target);
   return (
     <PredictionCardSection>
       <UserInfoSection>

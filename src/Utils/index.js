@@ -26,3 +26,34 @@ export function stringAvatar(name) {
     children: `${name.charAt(0)}`,
   };
 }
+
+export function debounce(func) {
+  let timer;
+  // eslint-disable-next-line func-names
+  return function (...args) {
+    const context = this;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = null;
+      func.apply(context, args);
+    }, 500);
+  };
+}
+
+export function calculateStopLoss(data) {
+  // data = { target, percentage, stockPrice }
+  if (data.target && data.percentage) {
+    const target = Number(data.target);
+    const price = Number(data?.stockPrice);
+    const percentage = Number(data?.percentage);
+    const percentageValue = (price / 100) * percentage;
+    let afterPercentageTarget = 0;
+    if (target > price) {
+      afterPercentageTarget = price - percentageValue;
+    } else {
+      afterPercentageTarget = price + percentageValue;
+    }
+    return { afterPercentageTarget, percentage };
+  }
+  return { afterPercentageTarget: '', percentage: data.percentage };
+}
