@@ -29,7 +29,7 @@ export default function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Prediction MVP
+            Predictany MVP
           </Typography>
           <div>
             <IconButton

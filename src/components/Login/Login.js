@@ -11,6 +11,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { signInWithFirebase } from '../../services/firebase/auth.firebase';
 import { AuthContext, IS_AUTHENTICATED, USER_STORAGE_KEY } from '../../Context/userAuth.context';
+import { fetchUserinfoByID } from '../../services/firebase/users.firebase';
+import { useSnackbar } from '../../Hooks/useSnackbar';
 
 const theme = createTheme();
 
@@ -19,6 +21,7 @@ export default function SignIn() {
   const { setIsAuthenticated, setUserData } = useContext(AuthContext);
 
   const navigate = useNavigate();
+  const { showError } = useSnackbar();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,17 +29,31 @@ export default function SignIn() {
     const email = data.get('email');
     const password = data.get('password');
     setIsSubmitting(true);
-    const { success, message, user } = await signInWithFirebase(email, password);
+    const {
+      success,
+      message,
+      user: { accessToken, displayName, uid, metadata, photoURL, phoneNumber },
+    } = await signInWithFirebase(email, password);
     if (success) {
       // Manage user data in context
-      setUserData(user);
+      const result = await fetchUserinfoByID(uid);
+      const userData = {
+        accessToken,
+        displayName,
+        uid,
+        metadata,
+        photoURL,
+        phoneNumber,
+        ...result.data,
+      };
+      setUserData(userData);
       setIsAuthenticated(true);
-      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
       localStorage.setItem(IS_AUTHENTICATED, true);
       navigate('/home');
     } else {
       // show error toast message
-      console.log('message', message);
+      showError(message);
     }
     setIsSubmitting(false);
   };

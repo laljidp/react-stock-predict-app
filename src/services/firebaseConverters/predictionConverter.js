@@ -12,6 +12,7 @@ class Prediction {
     this.stock = prediction.stock;
     this.target = prediction.target;
     this.userId = prediction.userId;
+    this.userName = prediction.userName;
   }
 
   getFormattedData() {
@@ -26,6 +27,7 @@ class Prediction {
       stock: this.stock,
       target: this.target,
       userId: this.userId,
+      userName: this.userName,
     };
   }
 }

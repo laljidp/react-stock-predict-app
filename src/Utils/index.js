@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function stringToColor(string) {
   let hash = 0;
   let i;
@@ -57,3 +59,35 @@ export function calculateStopLoss(data) {
   }
   return { afterPercentageTarget: '', percentage: data.percentage };
 }
+
+export const calculateStopLossPercentageByPrice = (data) => {
+  // { stockPrice, targetPrice }
+  const stockPrice = Number(data.stockPrice);
+  const targetPrice = Number(data.targetPrice);
+  const percentage = ((stockPrice - targetPrice) / ((stockPrice + targetPrice) / 2)) * 100;
+  return percentage.toFixed(2);
+};
+
+export const validatePredictionData = (payload) => {
+  const errors = [];
+  if (!payload.target) errors.push('Target field required!');
+  if (!payload.predictionDateTime) errors.push('Please select prediction date.');
+  if (!payload.afterPercentageTarget || !payload.percentage)
+    errors.push('Please set the Stoploss field');
+
+  return errors;
+};
+
+export const getFormattedPredictionPayload = (payload) => ({
+  ...payload,
+  target: Number(payload.target),
+  afterPercentageTarget: Number(payload.afterPercentageTarget),
+  percentage: Number(payload.percentage),
+  predictionDateTime: payload?.predictionDateTime?.toDate(),
+});
+
+export const calculateDaysLeft = (date) => {
+  const predictionDate = moment(date);
+  const currentDate = moment();
+  return predictionDate.diff(currentDate, 'days');
+};

@@ -1,6 +1,5 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
 const initialState = {
   isAuthenticated: false,
@@ -19,11 +18,6 @@ function AuthContextProvider({ children }) {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('User') || 'null'));
 
   const toggleAuth = () => setIsAuthenticated(!isAuthenticated);
-
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, setUserData);
-  }, []);
 
   const values = useMemo(
     () => ({ isAuthenticated, setIsAuthenticated, toggleAuth, userData, setUserData }),

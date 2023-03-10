@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function PredictionLiveWidget(props) {
   const { stopLoss, predictionPrice, targetPrice, livePrice } = props;
-  console.log(livePrice);
+  console.log('livePrice', livePrice);
   return (
     <WidgetSection>
       <div className="round-grey stop-loss-section">

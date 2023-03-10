@@ -5,13 +5,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthContextProvider from './Context/userAuth.context';
+import { SnackBarProvider } from './Hooks/useSnackbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
-        <App />
+        <SnackBarProvider>
+          <App />
+        </SnackBarProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>,

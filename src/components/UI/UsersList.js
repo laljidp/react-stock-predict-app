@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/system/Stack';
 import styled from '@emotion/styled';
-import { Container } from '@mui/system/';
+import { Box } from '@mui/material';
 import { stringAvatar } from '../../Utils';
 
 function UsersList({ users = [], onSelectUser }) {
   return (
-    <Container sx={{ display: 'flex', gridGap: '15px' }}>
+    <Box sx={{ display: 'flex', gridGap: '15px' }}>
       {users.map((user) => (
         <Stack
-          onClick={() => onSelectUser(user.id)}
+          onClick={() => onSelectUser(user)}
           direction="row"
           spacing={2}
           key={user.id}
           sx={{ display: 'grid', textAlign: 'left', cursor: 'pointer' }}
         >
-          <Avatar {...stringAvatar(user.name)} />
+          <Avatar sx={{ height: '100px', width: '100px' }} {...stringAvatar(user.name)} />
           <UserName>{user.name}</UserName>
         </Stack>
       ))}
-    </Container>
+    </Box>
   );
 }
 

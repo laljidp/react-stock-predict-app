@@ -28,6 +28,7 @@ const logout = () => {
   localStorage.removeItem(IS_AUTHENTICATED);
   localStorage.removeItem(USER_STORAGE_KEY);
   signOut(auth);
+  window.location.href = '/login';
 };
 
 export { db, auth, logout, app };

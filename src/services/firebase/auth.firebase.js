@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '.';
 

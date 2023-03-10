@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import propTypes from 'prop-types';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -14,10 +13,19 @@ import styled from '@emotion/styled';
 import TextField from '@mui/material/TextField';
 import { Switch, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import moment from 'moment';
 import CustomTabs from './Tabs';
 import { fetchStockPrice, searchStockBySymbol } from '../../services/finhub';
-import { calculateStopLoss, debounce } from '../../Utils';
+import {
+  calculateStopLoss,
+  calculateStopLossPercentageByPrice,
+  debounce,
+  getFormattedPredictionPayload,
+  validatePredictionData,
+} from '../../Utils';
+import { useSnackbar } from '../../Hooks/useSnackbar';
+import { AuthContext } from '../../Context/userAuth.context';
+import { createPrediction } from '../../services/firebase/prediction.firebase';
+import { PredictGradientButton } from './Buttons';
 
 const Transition = React.forwardRef((props, ref) => (
   <Slide direction="down" ref={ref} {...props} />
@@ -44,10 +52,17 @@ const DurationType = {
 function CreatePredictionModal({ open, onClose }) {
   const [searchOptions, setSearchOptions] = useState([]);
   const [loadingOption, setLoadingOption] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [payload, setPayload] = useState(initialPayload);
+
+  const { showError, showSuccessMsg } = useSnackbar();
+  const {
+    userData: { name: userName, uid: userId },
+  } = useContext(AuthContext);
 
   const handleClose = () => {
     onClose();
+    setPayload(initialPayload);
   };
 
   const handleSearch = async (searchText) => {
@@ -101,7 +116,7 @@ function CreatePredictionModal({ open, onClose }) {
   };
 
   const handleStopLossPercentageChange = (name, value) => {
-    if (value && value > 0) {
+    if (value) {
       const { afterPercentageTarget, percentage } = calculateStopLoss({
         stockPrice: payload.stock.price.c,
         target: payload.target,
@@ -121,6 +136,26 @@ function CreatePredictionModal({ open, onClose }) {
     }
   };
 
+  const handleStopLossAmountChange = (name, value) => {
+    if (value && Number(value) > 0) {
+      const percentage = calculateStopLossPercentageByPrice({
+        stockPrice: payload.stock.price.c,
+        targetPrice: value,
+      });
+      setPayload({
+        ...payload,
+        afterPercentageTarget: value,
+        percentage,
+      });
+    } else {
+      setPayload({
+        ...payload,
+        afterPercentageTarget: value,
+        percentage: '',
+      });
+    }
+  };
+
   const optimizeSearch = useCallback(debounce(handleSearch), []);
 
   const handleChange = (name, values) => {
@@ -130,9 +165,27 @@ function CreatePredictionModal({ open, onClose }) {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // call API to save
     console.log('payload', payload);
+    const errors = validatePredictionData(payload);
+    if (errors.length > 0) {
+      console.log('erros', errors);
+      errors.forEach((error) => {
+        showError(error);
+      });
+    } else {
+      setSubmitting(true);
+      const predictionPayload = getFormattedPredictionPayload({ ...payload, userName, userId });
+      const { success, message } = await createPrediction(predictionPayload);
+      if (success) {
+        showSuccessMsg(message);
+        handleClose();
+      } else {
+        showError(message);
+      }
+      setSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -158,7 +211,6 @@ function CreatePredictionModal({ open, onClose }) {
     <Dialog
       open={open}
       TransitionComponent={Transition}
-      keepMounted
       maxWidth="sm"
       fullWidth
       sx={{
@@ -296,7 +348,7 @@ function CreatePredictionModal({ open, onClose }) {
                 size="small"
                 id="outlined-basic"
                 name="afterPercentageTarget"
-                onChange={({ target }) => handleChange(target.name, target.value)}
+                onChange={({ target }) => handleStopLossAmountChange(target.name, target.value)}
                 value={payload?.afterPercentageTarget}
                 label="Stop loss $"
                 type="number"
@@ -304,7 +356,9 @@ function CreatePredictionModal({ open, onClose }) {
               />
             </Box>
             <Box sx={{ marginTop: '24px' }}>
-              <PredictButton onClick={handleSubmit}>Predict now</PredictButton>
+              <PredictGradientButton onClick={handleSubmit} disabled={submitting}>
+                {submitting ? 'Submitting...' : 'Predict now'}
+              </PredictGradientButton>
             </Box>
             <Box
               sx={{
@@ -341,15 +395,6 @@ const ModalTitle = styled(DialogTitle)({
   textAlign: 'center',
   backgroundColor: '#273c58',
   marginTop: '20px',
-});
-
-const PredictButton = styled(Button)({
-  padding: '10px 18px',
-  backgroundColor: 'rgb(34 255 34)',
-  borderRadius: '30px',
-  background: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(34,254,34,1) 54%)',
-  color: 'black',
-  fontWeight: 600,
 });
 
 const CustomSwitch = styled(Switch)(() => ({

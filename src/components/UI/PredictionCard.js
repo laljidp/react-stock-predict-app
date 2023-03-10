@@ -1,50 +1,67 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/system/Box';
 import predictionCardImage from '../../assets/images/prediction-card.jpeg';
 import TimeRemaining from './TimeRemaining';
 import PredictionLiveWidget from './PredictionLiveWidget';
+import { calculateDaysLeft } from '../../Utils';
+import { ChallengeButton } from './Buttons';
 
-export default function PredictionCard({ prediction }) {
-  const { target, stock, predictionDateTime, afterPercentageTarget } = prediction;
+export default function PredictionCard({ prediction, isChallengeCard, onChallengeClick }) {
+  const { target, stock, predictionDateTime, afterPercentageTarget, userName } = prediction;
   return (
-    <PredictionCardSection>
-      <UserInfoSection>
-        <div className="user-info">
-          <Avatar sx={{ marginLeft: '10px' }} src="./broken-image.jpeg" />
-          <span className="p-name">Predictany007</span>
-        </div>
-      </UserInfoSection>
-      <StockInfoSection>
-        <div className="head">
-          <div className="head-left">
-            <Avatar color="yellow" alt="BTC" />
-            <span className="stock-symbol">{stock.symbol}</span>
+    <Box>
+      <PredictionCardSection>
+        <UserInfoSection>
+          <div className="user-info">
+            <Avatar sx={{ marginLeft: '10px' }} src="./broken-image.jpeg" />
+            <span className="p-name">{userName || 'Predictany007'}</span>
           </div>
-          <div className="head-right">
-            <div className="content">
-              <strong>Target Price:</strong> <strong className="green">${target}</strong>
+        </UserInfoSection>
+        <StockInfoSection>
+          <div className="head">
+            <div className="head-left">
+              <Avatar color="yellow" alt="BTC" />
+              <span className="stock-symbol">{stock.symbol}</span>
             </div>
-            <div className="content">
-              <strong>Target date:</strong> <strong className="green">{predictionDateTime}</strong>
-            </div>
-            <div className="content">
-              <strong>Stop-loss:</strong>
-              <strong className="danger">${afterPercentageTarget}</strong>
+            <div className="head-right">
+              <div className="content">
+                <strong>Target Price:</strong> <strong className="green">${target}</strong>
+              </div>
+              <div className="content">
+                <strong>Target date:</strong>{' '}
+                <strong className="green">{predictionDateTime}</strong>
+              </div>
+              <div className="content">
+                <strong>Stop-loss:</strong>
+                <strong className="danger">${afterPercentageTarget}</strong>
+              </div>
             </div>
           </div>
-        </div>
-        <hr />
-        <TimeRemaining daysLeft={1} />
-        <PredictionLiveWidget
-          targetPrice={target}
-          predictionPrice={stock.price.c}
-          stopLoss={afterPercentageTarget}
-          livePrice={100}
-        />
-      </StockInfoSection>
-    </PredictionCardSection>
+          <hr />
+          <TimeRemaining daysLeft={calculateDaysLeft(predictionDateTime)} />
+          <PredictionLiveWidget
+            targetPrice={Number(target)}
+            predictionPrice={stock.price.c}
+            stopLoss={Number(afterPercentageTarget)}
+            livePrice={100}
+          />
+        </StockInfoSection>
+      </PredictionCardSection>
+      {isChallengeCard && (
+        <Box sx={{ textAlign: 'center', padding: '5px 0' }}>
+          <ChallengeButton
+            onClick={() => onChallengeClick(prediction)}
+            color="primary"
+            variant="contained"
+          >
+            Challenge
+          </ChallengeButton>
+        </Box>
+      )}
+    </Box>
   );
 }
 
@@ -54,7 +71,7 @@ const PredictionCardSection = styled('div')({
   backgroundImage: `url(${predictionCardImage})`,
   objectFit: 'cover',
   height: '220px',
-  width: '380px',
+  minWidth: '380px',
   backgroundSize: 'cover',
   padding: '6px 0',
 });
@@ -126,4 +143,11 @@ const StockInfoSection = styled('div')({
 
 PredictionCard.propTypes = {
   prediction: PropTypes.any.isRequired,
+  isChallengeCard: PropTypes.bool,
+  onChallengeClick: PropTypes.func,
+};
+
+PredictionCard.defaultProps = {
+  isChallengeCard: true,
+  onChallengeClick: () => {},
 };
