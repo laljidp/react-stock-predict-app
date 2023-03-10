@@ -3,8 +3,8 @@ import propTypes from 'prop-types';
 import React from 'react';
 
 export default function PredictionLiveWidget(props) {
+  // eslint-disable-next-line no-unused-vars
   const { stopLoss, predictionPrice, targetPrice, livePrice } = props;
-  console.log('livePrice', livePrice);
   return (
     <WidgetSection>
       <div className="round-grey stop-loss-section">

@@ -1,36 +1,34 @@
-import { getDocs, collection, where, query, addDoc, updateDoc, orderBy } from 'firebase/firestore';
-import predictionConverter from '../firebaseConverters/predictionConverter';
+import { getDocs, collection, addDoc, updateDoc } from 'firebase/firestore';
 import { db } from '.';
+import predictionConverter from '../firebaseConverters/predictionConverter';
+import {
+  getCompletedPredictionQuery,
+  getPublicPredictionQuery,
+  getUserPublicPredictionQuery,
+} from './queries';
 
 export const PREDICTION_COLLECTION = 'public_predictions';
 
 export const fetchUserPredictions = async (userID) => {
   try {
-    const predictionQuery = query(
-      collection(db, PREDICTION_COLLECTION).withConverter(predictionConverter),
-      where('userId', '==', userID),
-      where(
-        'predictionDateTime',
-        '>=',
-        new Date(Date.now() + 1000),
-        orderBy('predictionDateTime', 'desc'),
-      ),
-    );
-    const querySnapshot = await getDocs(predictionQuery);
-    // eslint-disable-next-line no-debugger
+    const querySnapshot = await getDocs(getUserPublicPredictionQuery(userID));
     const data = [];
     querySnapshot.forEach((doc) => data.push(doc.data().getFormattedData()));
-    return data;
+    return { success: true, data };
   } catch (err) {
     console.log('err', err);
-    return [];
+    return { success: false, data: [] };
   }
 };
 
 export const createPrediction = async (prediction) => {
   try {
-    const docRef = await addDoc(collection(db, PREDICTION_COLLECTION), prediction);
+    const docRef = await addDoc(
+      collection(db, PREDICTION_COLLECTION).withConverter(predictionConverter),
+      prediction,
+    );
     await updateDoc(docRef, { id: docRef.id });
+    console.log('Prediction created ==> ', docRef.id);
     if (docRef.id) {
       return { success: true, message: 'Prediction added!' };
     }
@@ -43,32 +41,20 @@ export const createPrediction = async (prediction) => {
 
 export const fetchPublicPredictions = async (userID) => {
   try {
-    const predictionQuery = query(
-      collection(db, PREDICTION_COLLECTION).withConverter(predictionConverter),
-      where('userId', '==', userID),
-      where('predictionDateTime', '>=', new Date(Date.now() + 1000)),
-      where('isSharePublicaly', '==', true),
-      orderBy('predictionDateTime', 'desc'),
-    );
-    const querySnapshot = await getDocs(predictionQuery);
+    const querySnapshot = await getDocs(getPublicPredictionQuery(userID));
     // eslint-disable-next-line no-debugger
     const data = [];
     querySnapshot.forEach((doc) => data.push(doc.data().getFormattedData()));
-    return data;
+    return { success: true, data };
   } catch (err) {
     console.log('err', err);
-    return [];
+    return { success: false, data: [] };
   }
 };
 
 export const fetchCompletedPrediction = async (userID) => {
   try {
-    const completedPredictionQuery = query(
-      collection(db, PREDICTION_COLLECTION).withConverter(predictionConverter),
-      where('userId', '==', userID),
-      where('predictionDateTime', '<', new Date(Date.now() + 1000)),
-    );
-    const querySnapshot = await getDocs(completedPredictionQuery);
+    const querySnapshot = await getDocs(getCompletedPredictionQuery(userID));
     const data = [];
     querySnapshot.forEach((doc) => data.push(doc.data().getFormattedData()));
     return { success: true, data };

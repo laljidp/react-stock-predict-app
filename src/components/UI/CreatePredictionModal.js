@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';

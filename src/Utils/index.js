@@ -64,7 +64,7 @@ export const calculateStopLossPercentageByPrice = (data) => {
   // { stockPrice, targetPrice }
   const stockPrice = Number(data.stockPrice);
   const targetPrice = Number(data.targetPrice);
-  const percentage = ((stockPrice - targetPrice) / ((stockPrice + targetPrice) / 2)) * 100;
+  const percentage = ((targetPrice - stockPrice) / ((stockPrice + targetPrice) / 2)) * 100;
   return percentage.toFixed(2);
 };
 
@@ -86,8 +86,32 @@ export const getFormattedPredictionPayload = (payload) => ({
   predictionDateTime: payload?.predictionDateTime?.toDate(),
 });
 
+export const getFormattedChallengePayload = (prediction, currentUser, newTarget) => {
+  const formattedPrediction = { ...prediction };
+
+  formattedPrediction.challenge = {
+    userId: formattedPrediction.userId,
+    userName: formattedPrediction.userName,
+    predictionID: formattedPrediction.id,
+  };
+  formattedPrediction.userId = currentUser.id;
+  formattedPrediction.userName = currentUser.name;
+  formattedPrediction.target = newTarget;
+  const { afterPercentageTarget, percentage } = calculateStopLoss({
+    target: newTarget,
+    stockPrice: prediction?.stock.price.c,
+    percentage: formattedPrediction.percentage,
+  });
+  formattedPrediction.afterPercentageTarget = afterPercentageTarget;
+  formattedPrediction.percentage = percentage;
+
+  return formattedPrediction;
+};
+
 export const calculateDaysLeft = (date) => {
   const predictionDate = moment(date);
   const currentDate = moment();
   return predictionDate.diff(currentDate, 'days');
 };
+
+export const getCallType = (stockPrice, targetPrice) => (targetPrice > stockPrice ? 'buy' : 'sell');

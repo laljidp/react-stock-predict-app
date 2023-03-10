@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/system/Box';
+import Chip from '@mui/material/Chip';
 import predictionCardImage from '../../assets/images/prediction-card.jpeg';
 import TimeRemaining from './TimeRemaining';
 import PredictionLiveWidget from './PredictionLiveWidget';
@@ -18,6 +19,9 @@ export default function PredictionCard({ prediction, isChallengeCard, onChalleng
           <div className="user-info">
             <Avatar sx={{ marginLeft: '10px' }} src="./broken-image.jpeg" />
             <span className="p-name">{userName || 'Predictany007'}</span>
+            {prediction?.challenge?.userName && (
+              <Chip sx={{ marginLeft: '10px' }} label="C" color="primary" size="small" />
+            )}
           </div>
         </UserInfoSection>
         <StockInfoSection>

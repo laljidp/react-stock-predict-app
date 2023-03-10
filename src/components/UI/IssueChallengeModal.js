@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import * as React from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import moment from 'moment';
 import Dialog from '@mui/material/Dialog';
@@ -10,22 +10,27 @@ import Box from '@mui/system/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import { deepOrange, green } from '@mui/material/colors';
+import { deepOrange, green, red } from '@mui/material/colors';
 import { PredictGradientButton } from './Buttons';
 import { useSnackbar } from '../../Hooks/useSnackbar';
+import { getCallType, getFormattedChallengePayload } from '../../Utils';
+import { AuthContext } from '../../Context/userAuth.context';
+import { createPrediction } from '../../services/firebase/prediction.firebase';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 export default function IssueChallengeModal({ open, onClose, prediction = {} }) {
-  const [targetPrice, setTargetPrice] = React.useState('');
-  const { showError } = useSnackbar();
+  const [targetPrice, setTargetPrice] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showError, showSuccessMsg } = useSnackbar();
+  const { userData } = React.useContext(AuthContext);
 
   const handleClose = () => {
     setTargetPrice('');
     onClose();
   };
 
-  const handleSubmitChallenge = () => {
+  const handleSubmitChallenge = async () => {
     const stockPrice = Number(prediction?.stock.price.c);
     const isForwardPrediction = prediction?.target > stockPrice;
     const challengeTarget = Number(targetPrice);
@@ -35,12 +40,20 @@ export default function IssueChallengeModal({ open, onClose, prediction = {} }) 
       showError(`Invalid prediction, Target Price should be Greter than $${stockPrice}`);
     } else {
       // Call API to save
-      console.log('hello there');
-      const newPaylaod = {
-        ...prediction,
-      };
+      setIsSubmitting(true);
+      const newPaylaod = getFormattedChallengePayload(prediction, userData, targetPrice);
+      const { success, message } = await createPrediction(newPaylaod);
+      if (success) {
+        showSuccessMsg('Challenge prediction saved.');
+        handleClose();
+      } else {
+        console.log('ErrorMessage', message);
+      }
+      setIsSubmitting(false);
     }
   };
+
+  const call = getCallType(prediction?.stock?.price?.c, prediction?.target);
 
   return (
     <div>
@@ -92,9 +105,14 @@ export default function IssueChallengeModal({ open, onClose, prediction = {} }) 
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Typography
-                  sx={{ color: green[400], fontSize: '36px', textShadow: '4px 2px 6px green' }}
+                  sx={{
+                    color: call === 'buy' ? green[400] : red[400],
+                    fontSize: '36px',
+                    textShadow: `0 -1px 8px ${call === 'buy' ? green[300] : red[300]}`,
+                    textTransform: 'uppercase',
+                  }}
                 >
-                  <b>BUY</b>
+                  <b className={call}>{call}</b>
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Avatar
@@ -154,8 +172,8 @@ export default function IssueChallengeModal({ open, onClose, prediction = {} }) 
               />
             </Box>
             <Box sx={{ textAlign: 'center', marginTop: '18px' }}>
-              <PredictGradientButton onClick={handleSubmitChallenge}>
-                Issue challenge
+              <PredictGradientButton disabled={isSubmitting} onClick={handleSubmitChallenge}>
+                {isSubmitting ? 'Submitting...' : 'Issue challenge'}
               </PredictGradientButton>
             </Box>
           </BottomSection>

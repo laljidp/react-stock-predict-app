@@ -9,6 +9,9 @@ export const PredictGradientButton = styled(Button)({
   color: 'black',
   fontWeight: 'bold',
   textTransform: 'capitalize',
+  '[disabled=true]': {
+    backgroundColor: '#dedede',
+  },
 });
 
 export const PredictButton = styled(Button)({
@@ -16,8 +19,8 @@ export const PredictButton = styled(Button)({
   borderRadius: '40px',
   color: '#fff',
   fontWeight: 600,
-  '&:hover': {
-    backgroundColor: '#ea2b2b',
+  '.Mui-disabled': {
+    backgroundColor: '#dedede',
   },
 });
 
