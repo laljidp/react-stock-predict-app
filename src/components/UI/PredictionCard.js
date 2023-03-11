@@ -20,7 +20,12 @@ export default function PredictionCard({ prediction, isChallengeCard, onChalleng
             <Avatar sx={{ marginLeft: '10px' }} src="./broken-image.jpeg" />
             <span className="p-name">{userName || 'Predictany007'}</span>
             {prediction?.challenge?.userName && (
-              <Chip sx={{ marginLeft: '10px' }} label="C" color="primary" size="small" />
+              <Chip
+                sx={{ marginLeft: '10px', textAlign: 'right' }}
+                label="C"
+                color="primary"
+                size="small"
+              />
             )}
           </div>
         </UserInfoSection>

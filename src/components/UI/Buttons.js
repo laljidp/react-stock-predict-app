@@ -9,8 +9,8 @@ export const PredictGradientButton = styled(Button)({
   color: 'black',
   fontWeight: 'bold',
   textTransform: 'capitalize',
-  '[disabled=true]': {
-    backgroundColor: '#dedede',
+  '&:disabled': {
+    background: '#dedede',
   },
 });
 
@@ -19,8 +19,8 @@ export const PredictButton = styled(Button)({
   borderRadius: '40px',
   color: '#fff',
   fontWeight: 600,
-  '.Mui-disabled': {
-    backgroundColor: '#dedede',
+  '&:hover': {
+    backgroundColor: '#FF6A6A',
   },
 });
 
@@ -30,4 +30,7 @@ export const ChallengeButton = styled(Button)({
   textTransform: 'capitalize',
   padding: '5px 20px',
   fontWeight: 600,
+  '&:disabled': {
+    backgroundColor: '#dedede',
+  },
 });

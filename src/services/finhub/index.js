@@ -17,5 +17,6 @@ export const fetchStockPrice = async (stockInfo) => {
   const searchUrl = `${baseURL}/quote?symbol=${stockInfo.symbol}&token=${apiKey}`;
   const response = await fetch(searchUrl);
   const data = await response.json();
+
   return data;
 };

@@ -30,7 +30,7 @@ function useProvideSnackbar() {
   const hideSnackbar = () => {
     setSnackbar({
       show: false,
-      type: undefined,
+      type: '',
       message: '',
     });
   };

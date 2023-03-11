@@ -39,7 +39,6 @@ function Home() {
   };
 
   const handleSelectUser = (user) => {
-    console.log('Selected User:', user);
     setSwitchUser({
       open: true,
       userID: user.id,
