@@ -2,7 +2,7 @@
   "name": "stock-prediction-app",
   "version": "0.1.0",
   "private": false,
-  "homepage": "http://laljidp.github.io/react-stock-predict-app",
+  "homepage": "https://laljidp.github.io/react-stock-predict-app",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",

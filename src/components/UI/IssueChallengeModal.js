@@ -34,6 +34,12 @@ export default function IssueChallengeModal({ open, onClose, prediction = {} }) 
     const stockPrice = Number(prediction?.stock.price.c);
     const isForwardPrediction = prediction?.target > stockPrice;
     const challengeTarget = Number(targetPrice);
+
+    if (!challengeTarget) {
+      showError('Target price is required!');
+      return;
+    }
+
     if (isForwardPrediction && challengeTarget > stockPrice) {
       showError(`Invalid prediction, Target Price should be Less than $${stockPrice}`);
     } else if (!isForwardPrediction && challengeTarget < stockPrice) {
