@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/react-stock-predict-app/static/css/main.c2d1a3cf.css",
-    "main.js": "/react-stock-predict-app/static/js/main.eaf7a355.js",
-    "static/js/424.449df1d7.chunk.js": "/react-stock-predict-app/static/js/424.449df1d7.chunk.js",
-    "static/js/589.0ade9861.chunk.js": "/react-stock-predict-app/static/js/589.0ade9861.chunk.js",
-    "static/js/787.1f702865.chunk.js": "/react-stock-predict-app/static/js/787.1f702865.chunk.js",
-    "static/js/715.59603f50.chunk.js": "/react-stock-predict-app/static/js/715.59603f50.chunk.js",
-    "static/js/328.332188c2.chunk.js": "/react-stock-predict-app/static/js/328.332188c2.chunk.js",
-    "static/media/prediction-card.jpeg": "/react-stock-predict-app/static/media/prediction-card.19754ed3251b1da6014a.jpeg",
-    "index.html": "/react-stock-predict-app/index.html",
-    "main.c2d1a3cf.css.map": "/react-stock-predict-app/static/css/main.c2d1a3cf.css.map",
-    "main.eaf7a355.js.map": "/react-stock-predict-app/static/js/main.eaf7a355.js.map",
-    "424.449df1d7.chunk.js.map": "/react-stock-predict-app/static/js/424.449df1d7.chunk.js.map",
-    "589.0ade9861.chunk.js.map": "/react-stock-predict-app/static/js/589.0ade9861.chunk.js.map",
-    "787.1f702865.chunk.js.map": "/react-stock-predict-app/static/js/787.1f702865.chunk.js.map",
-    "715.59603f50.chunk.js.map": "/react-stock-predict-app/static/js/715.59603f50.chunk.js.map",
-    "328.332188c2.chunk.js.map": "/react-stock-predict-app/static/js/328.332188c2.chunk.js.map"
+    "main.css": "./static/css/main.c2d1a3cf.css",
+    "main.js": "./static/js/main.c19c7a82.js",
+    "static/js/424.449df1d7.chunk.js": "./static/js/424.449df1d7.chunk.js",
+    "static/js/589.0ade9861.chunk.js": "./static/js/589.0ade9861.chunk.js",
+    "static/js/787.1f702865.chunk.js": "./static/js/787.1f702865.chunk.js",
+    "static/js/715.59603f50.chunk.js": "./static/js/715.59603f50.chunk.js",
+    "static/js/328.332188c2.chunk.js": "./static/js/328.332188c2.chunk.js",
+    "static/media/prediction-card.jpeg": "./static/media/prediction-card.19754ed3251b1da6014a.jpeg",
+    "index.html": "./index.html",
+    "main.c2d1a3cf.css.map": "./static/css/main.c2d1a3cf.css.map",
+    "main.c19c7a82.js.map": "./static/js/main.c19c7a82.js.map",
+    "424.449df1d7.chunk.js.map": "./static/js/424.449df1d7.chunk.js.map",
+    "589.0ade9861.chunk.js.map": "./static/js/589.0ade9861.chunk.js.map",
+    "787.1f702865.chunk.js.map": "./static/js/787.1f702865.chunk.js.map",
+    "715.59603f50.chunk.js.map": "./static/js/715.59603f50.chunk.js.map",
+    "328.332188c2.chunk.js.map": "./static/js/328.332188c2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c2d1a3cf.css",
-    "static/js/main.eaf7a355.js"
+    "static/js/main.c19c7a82.js"
   ]
 }
