@@ -1,24 +1,34 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import './App.css';
 import PrivateRoutes from './components/PrivateRoute.js';
 import { useSnackbar } from './Hooks/useSnackbar';
+import LoadingProgress from './components/UI/LoadingProgress';
+import { AuthContext } from './Context/userAuth.context';
 
 const LoginPage = React.lazy(() => import('./components/Login'));
 const HomePage = React.lazy(() => import('./components/Home'));
 
 function App() {
   const { snackbar, hideSnackbar } = useSnackbar();
+  const { userData } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userData && userData.uid) {
+      navigate('/home');
+    }
+  }, []);
   return (
     <div className="App">
       <Routes>
         <Route
-          path="/login"
+          path="/"
           exact
           element={
-            <React.Suspense fallback={<h1>Loading...</h1>}>
+            <React.Suspense fallback={<LoadingProgress />}>
               <LoginPage />
             </React.Suspense>
           }
@@ -27,7 +37,7 @@ function App() {
           <Route
             path="/home"
             element={
-              <React.Suspense fallback={<h1>Loading...</h1>}>
+              <React.Suspense fallback={<LoadingProgress />}>
                 <HomePage />
               </React.Suspense>
             }

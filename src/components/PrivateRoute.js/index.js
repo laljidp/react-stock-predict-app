@@ -12,6 +12,6 @@ export default function PrivateRoutes() {
       <Outlet />
     </>
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/" />
   );
 }
