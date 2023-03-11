@@ -28,7 +28,7 @@ const logout = () => {
   localStorage.removeItem(IS_AUTHENTICATED);
   localStorage.removeItem(USER_STORAGE_KEY);
   signOut(auth);
-  window.location.href = '/';
+  window.location.href = '/react-stock-predict-app';
 };
 
 export { db, auth, logout, app };

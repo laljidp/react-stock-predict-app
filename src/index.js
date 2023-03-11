@@ -10,7 +10,8 @@ import { SnackBarProvider } from './Hooks/useSnackbar';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/react-stock-predict-app">
+      {/* Need to remove this basename for outside Github pages deployment */}
       <AuthContextProvider>
         <SnackBarProvider>
           <App />
