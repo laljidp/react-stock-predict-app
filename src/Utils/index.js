@@ -115,3 +115,11 @@ export const calculateDaysLeft = (date) => {
 };
 
 export const getCallType = (stockPrice, targetPrice) => (targetPrice > stockPrice ? 'buy' : 'sell');
+
+export const filterCommonStock = (data = []) => {
+  if (!data || data.length === 0) return [];
+
+  return data.filter(
+    (r) => r.type?.toLowerCase() === 'Common Stock'.toLowerCase() && !r?.symbol.includes('.'),
+  );
+};

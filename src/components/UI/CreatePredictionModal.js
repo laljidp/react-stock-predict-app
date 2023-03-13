@@ -25,6 +25,7 @@ import { useSnackbar } from '../../Hooks/useSnackbar';
 import { AuthContext } from '../../Context/userAuth.context';
 import { createPrediction } from '../../services/firebase/prediction.firebase';
 import { PredictGradientButton } from './Buttons';
+import LoadingProgress from './LoadingProgress';
 
 const Transition = React.forwardRef((props, ref) => (
   <Slide direction="down" ref={ref} {...props} />
@@ -236,9 +237,11 @@ function CreatePredictionModal({ open, onClose }) {
           placeholder="Search by stock symbol e.g. AAPL"
           loading={loadingOption}
           size="small"
+          noOptionsText="No stock founds!"
           sx={{ margin: '0 auto', width: '80%' }}
           onInputChange={({ target }) => optimizeSearch(target.value)}
           options={searchOptions}
+          loadingText={<LoadingProgress />}
           onChange={(event, values) => handleStockChange(values)}
           getOptionLabel={(option) => `${option.description} (${option.symbol})`}
           renderInput={(params) => (
