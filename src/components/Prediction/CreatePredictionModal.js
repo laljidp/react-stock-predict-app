@@ -18,7 +18,6 @@ import {
   calculateStopLoss,
   calculateStopLossPercentageByPrice,
   debounce,
-  getFormattedPredictionPayload,
   validatePredictionData,
 } from '../../Utils';
 import { useSnackbar } from '../../Hooks/useSnackbar';
@@ -176,7 +175,7 @@ function CreatePredictionModal({ open, onClose }) {
       });
     } else {
       setSubmitting(true);
-      const predictionPayload = getFormattedPredictionPayload({ ...payload, userName, userId });
+      const predictionPayload = { ...payload, userName, userId };
       const { success, message } = await createPrediction(predictionPayload);
       if (success) {
         showSuccessMsg(message);

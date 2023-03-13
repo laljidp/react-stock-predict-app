@@ -12,12 +12,14 @@ import CreatePredictionModal from '../Prediction/CreatePredictionModal';
 import CompletedPredictions from '../Prediction/CompletedPredictions';
 import SwitchUserModal from '../Prediction/SwitchUserModal';
 import { PredictButton } from '../UI/Buttons';
+import LoadingProgress from '../UI/LoadingProgress';
 
 function Home() {
   const {
     userData: { uid: currentUserID, name },
   } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
+  const [userLoading, setUserLoading] = useState(false);
   const [showPredictModal, setShowPredictModal] = useState(false);
   const [switchUser, setSwitchUser] = useState({
     open: false,
@@ -34,8 +36,10 @@ function Home() {
 
   const fetchUsers = async () => {
     console.log('calling APIs');
+    setUserLoading(true);
     const result = await fetchUsersFromStore(currentUserID);
     setUsers(result);
+    setUserLoading(false);
   };
 
   const handleSelectUser = (user) => {
@@ -64,7 +68,11 @@ function Home() {
         OTHER USERS
       </Typography>
       <Box sx={{ marginTop: '18px' }}>
-        <UsersList users={users} onSelectUser={handleSelectUser} />
+        {userLoading ? (
+          <LoadingProgress />
+        ) : (
+          <UsersList users={users} onSelectUser={handleSelectUser} />
+        )}
       </Box>
       <Typography variant="body2" sx={{ fontWeight: 600, paddingTop: '18px' }}>
         YOUR ONGOING PREDICTION

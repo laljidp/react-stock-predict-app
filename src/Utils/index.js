@@ -78,14 +78,6 @@ export const validatePredictionData = (payload) => {
   return errors;
 };
 
-export const getFormattedPredictionPayload = (payload) => ({
-  ...payload,
-  target: Number(payload.target),
-  afterPercentageTarget: Number(payload.afterPercentageTarget),
-  percentage: Number(payload.percentage),
-  predictionDateTime: payload?.predictionDateTime?.toDate(),
-});
-
 export const getFormattedChallengePayload = (prediction, currentUser, newTarget) => {
   const formattedPrediction = { ...prediction };
 
@@ -97,6 +89,7 @@ export const getFormattedChallengePayload = (prediction, currentUser, newTarget)
   formattedPrediction.userId = currentUser.id;
   formattedPrediction.userName = currentUser.name;
   formattedPrediction.target = newTarget;
+  // For the challenge we need to calculte stop loss on opposite direction.
   const { afterPercentageTarget, percentage } = calculateStopLoss({
     target: newTarget,
     stockPrice: prediction?.stock.price.c,
