@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-stock-predict-app/static/css/main.c2d1a3cf.css",
-    "main.js": "/react-stock-predict-app/static/js/main.6b184ef4.js",
+    "main.js": "/react-stock-predict-app/static/js/main.d7c6bdfe.js",
     "static/js/424.2e3d8f57.chunk.js": "/react-stock-predict-app/static/js/424.2e3d8f57.chunk.js",
     "static/js/413.c8c54a53.chunk.js": "/react-stock-predict-app/static/js/413.c8c54a53.chunk.js",
     "static/js/787.1f702865.chunk.js": "/react-stock-predict-app/static/js/787.1f702865.chunk.js",
@@ -10,7 +10,7 @@
     "static/media/prediction-card.jpeg": "/react-stock-predict-app/static/media/prediction-card.19754ed3251b1da6014a.jpeg",
     "index.html": "/react-stock-predict-app/index.html",
     "main.c2d1a3cf.css.map": "/react-stock-predict-app/static/css/main.c2d1a3cf.css.map",
-    "main.6b184ef4.js.map": "/react-stock-predict-app/static/js/main.6b184ef4.js.map",
+    "main.d7c6bdfe.js.map": "/react-stock-predict-app/static/js/main.d7c6bdfe.js.map",
     "424.2e3d8f57.chunk.js.map": "/react-stock-predict-app/static/js/424.2e3d8f57.chunk.js.map",
     "413.c8c54a53.chunk.js.map": "/react-stock-predict-app/static/js/413.c8c54a53.chunk.js.map",
     "787.1f702865.chunk.js.map": "/react-stock-predict-app/static/js/787.1f702865.chunk.js.map",
@@ -19,6 +19,6 @@
   },
   "entrypoints": [
     "static/css/main.c2d1a3cf.css",
-    "static/js/main.6b184ef4.js"
+    "static/js/main.d7c6bdfe.js"
   ]
 }
