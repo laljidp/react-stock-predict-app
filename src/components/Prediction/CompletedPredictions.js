@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react';
 import deepOrange from '@mui/material/colors/deepOrange';
 import { green } from '@mui/material/colors';
 import { fetchCompletedPrediction } from '../../services/firebase/prediction.firebase';
-import LoadingProgress from './LoadingProgress';
-import NoDataFound from './NotDataFound';
+import LoadingProgress from '../UI/LoadingProgress';
+import NoDataFound from '../UI/NotDataFound';
 
 function CompletedPredictions({ userID }) {
   const [predictions, setPredictions] = useState([]);

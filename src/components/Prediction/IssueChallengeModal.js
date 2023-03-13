@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, green, red } from '@mui/material/colors';
-import { PredictGradientButton } from './Buttons';
+import { PredictGradientButton } from '../UI/Buttons';
 import { useSnackbar } from '../../Hooks/useSnackbar';
 import { getCallType, getFormattedChallengePayload } from '../../Utils';
 import { AuthContext } from '../../Context/userAuth.context';

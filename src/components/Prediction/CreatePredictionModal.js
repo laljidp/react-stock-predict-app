@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import TextField from '@mui/material/TextField';
 import { Switch, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import CustomTabs from './Tabs';
+import CustomTabs from '../UI/Tabs';
 import { fetchStockPrice, searchStockBySymbol } from '../../services/finhub';
 import {
   calculateStopLoss,
@@ -24,8 +24,8 @@ import {
 import { useSnackbar } from '../../Hooks/useSnackbar';
 import { AuthContext } from '../../Context/userAuth.context';
 import { createPrediction } from '../../services/firebase/prediction.firebase';
-import { PredictGradientButton } from './Buttons';
-import LoadingProgress from './LoadingProgress';
+import { PredictGradientButton } from '../UI/Buttons';
+import LoadingProgress from '../UI/LoadingProgress';
 
 const Transition = React.forwardRef((props, ref) => (
   <Slide direction="down" ref={ref} {...props} />

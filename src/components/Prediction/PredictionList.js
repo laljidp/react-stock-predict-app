@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { onSnapshot } from 'firebase/firestore';
 import PredictionCard from './PredictionCard';
-import LoadingProgress from './LoadingProgress';
-import NoDataFound from './NotDataFound';
+import LoadingProgress from '../UI/LoadingProgress';
+import NoDataFound from '../UI/NotDataFound';
 import {
   fetchPublicPredictions,
   fetchUserPredictions,

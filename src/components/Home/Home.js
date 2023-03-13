@@ -6,11 +6,11 @@ import styled from '@emotion/styled';
 import { Button, Typography } from '@mui/material';
 import { AuthContext } from '../../Context/userAuth.context';
 import { fetchUsersFromStore } from '../../services/firebase/users.firebase';
-import UsersList from '../UI/UsersList';
-import PredictionLists from '../UI/PredictionList';
-import CreatePredictionModal from '../UI/CreatePredictionModal';
-import CompletedPredictions from '../UI/CompletedPredictions';
-import SwitchUserModal from '../UI/SwitchUserModal';
+import UsersList from '../Prediction/UsersList';
+import PredictionLists from '../Prediction/PredictionList';
+import CreatePredictionModal from '../Prediction/CreatePredictionModal';
+import CompletedPredictions from '../Prediction/CompletedPredictions';
+import SwitchUserModal from '../Prediction/SwitchUserModal';
 import { PredictButton } from '../UI/Buttons';
 
 function Home() {

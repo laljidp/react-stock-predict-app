@@ -8,7 +8,7 @@ import predictionCardImage from '../../assets/images/prediction-card.jpeg';
 import TimeRemaining from './TimeRemaining';
 import PredictionLiveWidget from './PredictionLiveWidget';
 import { calculateDaysLeft } from '../../Utils';
-import { ChallengeButton } from './Buttons';
+import { ChallengeButton } from '../UI/Buttons';
 
 export default function PredictionCard({ prediction, isChallengeCard, onChallengeClick }) {
   const { target, stock, predictionDateTime, afterPercentageTarget, userName } = prediction;

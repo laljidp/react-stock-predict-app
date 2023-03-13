@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useNavigate } from 'react-router';
 import { logout } from '../../services/firebase';
-import ROUTES from '../PrivateRoute.js/routeConfig';
+// import ROUTES from '../PrivateRoute.js/routeConfig';
 
 export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,7 +26,7 @@ export default function MenuAppBar() {
 
   const handleLogout = () => {
     logout(() => {
-      navigate(ROUTES.root);
+      navigate(0);
     });
   };
 
