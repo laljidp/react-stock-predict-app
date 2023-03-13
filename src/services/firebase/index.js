@@ -24,11 +24,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const logout = () => {
+const logout = (navigateToRoot) => {
   localStorage.removeItem(IS_AUTHENTICATED);
   localStorage.removeItem(USER_STORAGE_KEY);
   signOut(auth);
-  window.location.href = '/react-stock-predict-app';
+  navigateToRoot();
 };
 
 export { db, auth, logout, app };

@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ROUTES from '../PrivateRoute.js/routeConfig';
 import { signInWithFirebase } from '../../services/firebase/auth.firebase';
 import { AuthContext, IS_AUTHENTICATED, USER_STORAGE_KEY } from '../../Context/userAuth.context';
 import { fetchUserinfoByID } from '../../services/firebase/users.firebase';
@@ -50,7 +51,7 @@ export default function SignIn() {
       setIsAuthenticated(true);
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
       localStorage.setItem(IS_AUTHENTICATED, true);
-      navigate('/home');
+      navigate(ROUTES.home);
     } else {
       // show error toast message
       showError(message);

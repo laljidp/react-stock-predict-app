@@ -2,11 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import './App.css';
 import PrivateRoutes from './components/PrivateRoute.js';
 import { useSnackbar } from './Hooks/useSnackbar';
 import LoadingProgress from './components/UI/LoadingProgress';
 import { AuthContext } from './Context/userAuth.context';
+import './App.css';
 
 const LoginPage = React.lazy(() => import('./components/Login'));
 const HomePage = React.lazy(() => import('./components/Home'));
@@ -36,6 +36,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route
             path="/home"
+            exact
             element={
               <React.Suspense fallback={<LoadingProgress />}>
                 <HomePage />
